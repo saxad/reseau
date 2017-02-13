@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
-#serveur d’écho (version concurrente)
+#serveur d’écho (version concurrente) 
+#j'ai rajouté une ligne  mais c'est un mauvais choix
 import thread, time
 from socket import *
 
