@@ -53,8 +53,8 @@ while serveur_lance:
 
 			client.send("entre une action")
 
-if msg_recu == "fin":
-	deconnecxion(client,clients_a_lire,clients_connectes)
+			if msg_recu == "fin":
+				deconnecxion(client,clients_a_lire,clients_connectes)
 
 			msg_recu = client.recv(1024)
 			msg_recu = msg_recu.decode()
