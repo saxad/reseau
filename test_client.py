@@ -5,11 +5,11 @@
 import socket
 import signal
 import sys
-
+from authentification import *
 
 def decon(signal, frame):
-	"""deconnection brutal """
-		
+	"""deconnecxion avec ctrl+C  """
+
 	client.send("fin")
 	client.close()
 	print("deconnexion\n")
@@ -29,15 +29,28 @@ print("connexion avec le serveur ")
 connexion = True
 
 while  connexion:
-	
+
+################################################################
+#			 	    Authentification			  			   #
+################################################################
+
+	authentificationclient(client)
+		
+#	data = raw_input("... en attente d'une action a envoyer")
+
+################################################################
+#			 	  ici faut mettre les actions	  			   #
+################################################################
+
+	data = client.recv(buf)
+	print(data)
 	data = raw_input("message envoyee: ")
 	client.send(data)
 	if data == "fin":
 		break
 	data = client.recv(buf)
 	print("message recu : {}" .format(data))
-	
+
+
 
 client.close()
-
-

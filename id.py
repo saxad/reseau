@@ -41,12 +41,12 @@ print("=================================================================\n")
 while True:
 	
 	cc.send(b"entrez votre nom :")
-	data = cc.recv(1024)
-	print("info recu à [{}] : {}" .format(time.ctime(), data))
+	nom = cc.recv(1024)
+	print("info recu à [{}] : {}" .format(time.ctime(), nom))
 		
 
 ##########    chercher si il ya un nom pareil dans la base de donnée
-	if data == "zizi":
+	if nom == "zizi":
 		cc.send("ok")
 		time.sleep(1)
 	else:
@@ -56,10 +56,10 @@ while True:
 
 ####################################################################
 	cc.send("entrez votre prenom : ")
-	data = cc.recv(1024)
-	print("info recu à [{}] : {}" .format(time.ctime(), data))
+	prenom = cc.recv(1024)
+	print("info recu à [{}] : {}" .format(time.ctime(), prenom))
 ##########    chercher si il ya un nom pareil dans la base de donnée
-	if data == "saad":
+	if prenom == "saad":
 		cc.send("ok")
 		time.sleep(1)
 	else:
@@ -70,10 +70,10 @@ while True:
 #####################################################################
 
 	cc.send("entrez votre mpt de passe : ")
-	data = cc.recv(1024)
-	print("info recu à [{}] : {}" .format(time.ctime(), data))
+	mdp = cc.recv(1024)
+	print("info recu à [{}] : {}" .format(time.ctime(), mdp))
 
-	if data == "azerty":
+	if mdp == "azerty":
 		print(infoc,"est connecte")
 	else:
 		cc.send("nok")
