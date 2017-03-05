@@ -1,43 +1,48 @@
+#! /usr/bin/env python
 # -*- coding: utf8 -*-
-#serveur d’écho (version concurrente)
-
-import thread, time
-
-from socket import *
 
 
-Host = '127.0.0.1'
-Port = 8888
-s = socket(AF_INET, SOCK_STREAM)
-s.bind((Host, Port))
-s.listen(5)
-##########  retourn l'heure actuelle
+from authentification import *
+import socket
+import threading
+import sys
 
-def now():
-	return time.ctime(time.time())
+host = '127.0.0.1'
+port = 7412
 
-#############   imprimer ce qui est recu + temps
-def handleClient(connection):
-	time.sleep(5)
-	while 1:
-		data = connection.recv(1024)
+########### THREAD QUI S'OCCUPE DES CLIENTS ###########
 
-#		if not data: break
-		if data == "saad":
-			connection.send('Echo (%s) : mot de passe correct' % (now()))
-		else:
-			print(repr(data)," c'est pas un mdp valable")
-			
-			continue
-	connection.close()
+class threadclient(threading.Thread):  # threadclient herite les caractéristique de THREAD
 
-############### accepte la connection d'un client
-def dispatcher():
-	while 1:
-		connection, address = s.accept()
-		print 'Server connected by', address,
-		print 'at', now()
-		thread.start_new(handleClient, (connection,))	
+    def __init__(self, client):   # constructeur de classe
+        threading.Thread.__init__(self)
+        self.connexion = client
 
-###############  debut du programme 
-dispatcher()
+
+# run c'est une methode de la classe thread qu'on va surchargé
+    def run(self):
+        nom = self.getName()
+        print("la valeur de nom ", nom)
+        while 1 :
+            authentificationserveur(self.connexion)
+            
+#################### FIN DU THREAD ####################
+
+
+
+connexion_principal = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+try:
+    connexion_principal.bind((host,port))
+except socket.error:
+    print("erreur du bind")
+    sys.exit()
+
+print("le serveur attend des clients\n")
+connexion_principal.listen(10)
+
+while 1:
+    client, adresse = connexion_principal.accept()
+    ##################    creation du threading
+    th = threadclient(client)
+    th.start()  # demmarer le thread
