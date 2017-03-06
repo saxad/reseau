@@ -4,62 +4,112 @@
 from getpass import getpass
 from  database import *
 import socket
+import time
 
+"""
 def deconnexion(client, clients_a_lire,clients_connectes):
 	client.close()
 	clients_a_lire.remove(client)
 	clients_connectes.remove(client)
-
+"""
 
 def authentificationserveur(client):
 
-	identification = 1
-	#while identification != 0:
-
-	print("=====================================\n")
-	print("----Authentification cote serveur----\n")
-	print("=====================================\n")
-
+	identification = 0
 	buf = 1024
-	nom = client.recv(buf)
-	print "message recu : ",nom
-	client.send("recu")
+	client.send("=====================================\n----Authentification ---\n=====================================\n")
 
-	prenom = client.recv(buf)
+	while identification == 0:
 
-	print "message recu : ",prenom
-	client.send("recu")
+		nom = client.recv(buf)
+		print "message recu : ",nom
+		data = "recu"
+		client.send(data)
 
-	mdp = client.recv(buf)
-	print "message recu : ", mdp
-	client.send("recu")
+		prenom = client.recv(buf)
+		print "message recu : ",prenom
+		client.send(data)
 
-	identification = 	isintable(nom,prenom,mdp,"employees")
-	print(identification)
+		mdp = client.recv(buf)
+		print "message recu : ", mdp
+		################################################################
+
+		client.send(data)
+		identification = isintable(nom,prenom,mdp,"employees")
+
+		if identification == 0 :
+
+			client.send("nok")
+		else:
+
+			data = "entre une action ..."
+			client.send(data)
+		##################################################################""
+			data = client.recv(buf)
+			while 1:
+
+				print(data)
+				if data == 'fin':
+					break
+				client.send("action traité... \n(pas vraiment j'ai pas encore codé cette partie mais\nbon bref entre une autre ou fin pour finir)")
+
+			client.send("envoie < c > pour se reconnecter ou < f > pour finir ")
+			data = client.recv(buf)
+			if data == 'f':
+				break
+			else:
+				continue
+	print("c'est fini molami")
 	return 0
 
 
 
 def authentificationclient(client):
 
-	print("====================================\n")
-	print("----Authentification cote client----\n")
-	print("====================================\n")
+
 
 	buf = 1024
+	identification = 'nok'
 
-	data = raw_input("entre ton nom : ")
-	client.send(data)
-	data = client.recv(buf)
-	print "serveur : ", data
+	print(client.recv(buf))
 
-	data = raw_input("entre ton prenom : ")
-	client.send(data)
-	data = client.recv(buf)
-	print "serveur : ", data
+	while identification == 'nok' :
+		print("\n")
+		data = raw_input("entre ton nom : ")
+		client.send(data)
 
-	data = getpass("entre ton mot de passe : ")
-	###### Faut chiffrer le mot de passe avant de l'envoyer ######
-	client.send(data)
-	data = client.recv(buf)
-	print "serveur : ", data
+		data = client.recv(buf)#ack recu
+		print "serveur : ", data#ack recu
+
+		data = raw_input("entre ton prenom : ")
+		client.send(data)
+
+		data = client.recv(buf)#ack recu
+		print "serveur : ", data#ack recu
+
+		data = getpass("entre ton mot de passe : ")
+		###### Faut chiffrer le mot de passe avant de l'envoyer ######
+		client.send(data)
+		data = client.recv(buf)#ack recu
+#############################################" blempro"
+		print "serveur : ", data #ack recu       il lit deux send
+
+
+		identification = client.recv(buf)
+
+		if identification == 'nok':
+			print("erreur d'enthentification entrez votre Id a nouveau")
+		else:
+
+			print("vous etes connecté au serveur")
+			print "serveur : ", identification
+
+#########################################################
+
+
+			while 1:
+				print("cette partie concerne les action")
+				data = raw_input("C> ")
+				client.send(data)
+				data = client.recv(buf)
+				print(data)
