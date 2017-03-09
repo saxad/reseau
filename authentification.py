@@ -35,31 +35,37 @@ def authentificationserveur(client):
 		################################################################
 
 		client.send(data)
+		# identification return 0 pour false, et 1 pour true
 		identification = isintable(nom,prenom,mdp,"employees")
 
 		if identification == 0 :
-
 			client.send("nok")
-		else:
 
+		else:
 			data = "entre une action ..."
 			client.send(data)
-		##################################################################""
+		##################################################################
+
 			data = client.recv(buf)
 			while 1:
 
 				print(data)
-				if data == 'fin':
+				if data.upper() == 'FIN':
 					break
 				client.send("action traité... \n(pas vraiment j'ai pas encore codé cette partie mais\nbon bref entre une autre ou fin pour finir)")
+				data = client.recv(buf)
 
-			client.send("envoie < c > pour se reconnecter ou < f > pour finir ")
+			client.send("envoie < F > pour confirmer")
 			data = client.recv(buf)
-			if data == 'f':
+			
+			if data.upper() == 'F':
+				client.send("fin")
+				print("\n---- deconnecxion du client ------\n" )
 				break
 			else:
-				continue
+				print("coucou")
 	print("c'est fini molami")
+
 	return 0
 
 
@@ -98,18 +104,21 @@ def authentificationclient(client):
 		identification = client.recv(buf)
 
 		if identification == 'nok':
-			print("erreur d'enthentification entrez votre Id a nouveau")
+			print("==================================================\nerreur d'enthentification entrez votre Id a nouveau")
 		else:
 
-			print("vous etes connecté au serveur")
+			print("\n=============================\nvous etes connecté au serveur")
 			print "serveur : ", identification
 
 #########################################################
 
 
+			print("\n==============================\nCONSOLE DES ACTIONS : \n")
+
 			while 1:
-				print("cette partie concerne les action")
 				data = raw_input("C> ")
 				client.send(data)
 				data = client.recv(buf)
 				print(data)
+				if data.upper() == "FIN":
+					break
