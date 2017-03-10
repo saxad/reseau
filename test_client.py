@@ -19,7 +19,7 @@ signal.signal(signal.SIGINT, decon)
 
 
 hote = '127.0.0.1'
-port = 12800
+port = 7412
 buf = 1024
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,17 +31,17 @@ connexion = True
 while  connexion:
 
 ################################################################
-#			 	    Authentification			  			   #
+#	  Authentification et communication avec serveur		   #
 ################################################################
 
 	authentificationclient(client)
-		
+	break
 #	data = raw_input("... en attente d'une action a envoyer")
 
 ################################################################
 #			 	  ici faut mettre les actions	  			   #
 ################################################################
-
+"""
 	data = client.recv(buf)
 	print(data)
 	data = raw_input("message envoyee: ")
@@ -50,7 +50,7 @@ while  connexion:
 		break
 	data = client.recv(buf)
 	print("message recu : {}" .format(data))
-
+"""
 
 
 client.close()

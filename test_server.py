@@ -6,7 +6,7 @@ import socket
 import select
 import signal
 from  authentification import *
-
+import sys
 
 
 hote = '127.0.0.1'
@@ -52,7 +52,7 @@ while serveur_lance:
 
 
 			client.send("entre une action")
-
+"""
 			if msg_recu == "fin":
 				deconnecxion(client,clients_a_lire,clients_connectes)
 
@@ -62,7 +62,6 @@ while serveur_lance:
 			client.send(b"recu")
 
 
-"""
 				client.close()
 				clients_a_lire.remove(client)
 				clients_connectes.remove(client)

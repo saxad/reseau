@@ -17,8 +17,8 @@ def creation():
 
 
 		cur.execute("CREATE TABLE employee (nom TEXT, prenom TEXT, mdp TEXT) ")
-		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('zizi','saad','azerty')")
 		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('prieur','paul','azerty')")
+		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('zizi','saad','azerty')")
 		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('dendekker','benjamin','azerty')")
 		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('hue','charly','azerty')")
 
@@ -29,13 +29,7 @@ def creation():
 	except:
 		None
 
-"""
-	personne = cur.execute("SELECT *  FROM employee WHERE nom='zizi' ")
-	for p in personne:
-		print(p)
-	print("fin")
 
-"""
 
 def isintable( nomid, prenomid, mdpid,bdd="employees"):
 
@@ -54,4 +48,4 @@ def isintable( nomid, prenomid, mdpid,bdd="employees"):
 
 if __name__ == "__main__":
 	creation()
-	isintable('zxizi','saad','azerty',"employees")
+	isintable('prieur','paul','azerty',"employees")

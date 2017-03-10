@@ -21,6 +21,10 @@ def authentificationserveur(client):
 
 	while identification == 0:
 
+		nom = ""
+		prenom = ""
+		mdp = ""
+
 		nom = client.recv(buf)
 		print "message recu : ",nom
 		data = "recu"
@@ -52,18 +56,27 @@ def authentificationserveur(client):
 				print(data)
 				if data.upper() == 'FIN':
 					break
-				client.send("action traité... \n(pas vraiment j'ai pas encore codé cette partie mais\nbon bref entre une autre ou fin pour finir)")
+				data = "action traité... \n(pas vraiment j'ai pas encore codé cette partie mais\nbon bref entre une autre ou fin pour finir)"
+				client.send(data)
 				data = client.recv(buf)
 
-			client.send("envoie < F > pour confirmer")
-			data = client.recv(buf)
+			client.send("fin")
+			break
 			
+			"""
+			client.send("envoie < F > pour confirmer ou autre pour continuer")
+			data = client.recv(buf)
+			print(data)
 			if data.upper() == 'F':
 				client.send("fin")
 				print("\n---- deconnecxion du client ------\n" )
 				break
 			else:
+				client.send("continue")
 				print("coucou")
+				authentificationserveur(client)
+			"""
+
 	print("c'est fini molami")
 
 	return 0
@@ -120,5 +133,10 @@ def authentificationclient(client):
 				client.send(data)
 				data = client.recv(buf)
 				print(data)
+
 				if data.upper() == "FIN":
 					break
+				"""
+				if data.upper() == "CONTINUE":
+					authentificationclient(client)
+				"""
