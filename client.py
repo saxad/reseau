@@ -1,54 +1,56 @@
 #! /usr/bin/env python
-# -*- coding:utf8 -*-
-
-from socket import *
-import time
-from getpass import getpass
+# -*- coding: utf8 -*-
 
 
-connexion = socket(AF_INET,SOCK_STREAM)
+import socket
+import signal
+import sys
+from authentification import *
 
-connexion.connect(('127.0.0.1',8888))
+def decon(signal, frame):
+	"""deconnecxion avec ctrl+C  """
 
-while True:
-	print(connexion.recv(1024))
-	data = raw_input("")
-	connexion.send(data)
-	data = ""
+	client.send("fin")
+	client.close()
+	print("deconnexion\n")
+	sys.exit(0)
 
-	data = connexion.recv(1024)
-	print(repr(data))
-	print("le client a recu : {}   \n".format(data))
+signal.signal(signal.SIGINT, decon)
 
-	if data == "ok":
-		print("id ok \n")
-	else:
-		print("nom n'exista pas recommencez l'identification : \n")
-		continue
-	data =""
 
-	print(connexion.recv(1024))
-	data = raw_input("")
-	connexion.send(data)
-	data = connexion.recv(1024)
+hote = '127.0.0.1'
+port = 7412
+buf = 1024
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((hote,port))
+print("connexion avec le serveur ")
+
+connexion = True
+
+while  connexion:
+
+################################################################
+#	  Authentification et communication avec serveur		   #
+################################################################
+
+	authentificationclient(client)
+	break
+#	data = raw_input("... en attente d'une action a envoyer")
+
+################################################################
+#			 	  ici faut mettre les actions	  			   #
+################################################################
+"""
+	data = client.recv(buf)
 	print(data)
-	if data == "ok":
-		print("prenom ok ")
-	else:
-		print("prenom n'exista pas recommencez l'identification : \n")
-		continue
+	data = raw_input("message envoyee: ")
+	client.send(data)
+	if data == "fin":
+		break
+	data = client.recv(buf)
+	print("message recu : {}" .format(data))
+"""
 
-	data=""
-	data = connexion.recv(1024)
-	print(data)
-	data = getpass("entre mot de passe : ")
-	
-	connexion.send(data)
-	data = ""
-	data = connexion.recv(1024)
-	print(repr(data))
-	if data == "nok":
-		print("mot de passe incorrect recommencez l'identification")
-		continue
-	else:
-		print("vous connectez au serveur")
+
+client.close()
