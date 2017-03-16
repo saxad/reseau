@@ -5,7 +5,7 @@
 import socket
 import signal
 import sys
-from authentification import *
+from fonction.authentification import *
 
 def decon(signal, frame):
 	"""deconnecxion avec ctrl+C  """
@@ -36,7 +36,6 @@ while  connexion:
 
 	authentificationclient(client)
 	break
-#	data = raw_input("... en attente d'une action a envoyer")
 
 ################################################################
 #			 	  ici faut mettre les actions	  			   #

@@ -6,12 +6,6 @@ from  database import *
 import socket
 import time
 
-"""
-def deconnexion(client, clients_a_lire,clients_connectes):
-	client.close()
-	clients_a_lire.remove(client)
-	clients_connectes.remove(client)
-"""
 
 def authentificationserveur(client):
 
@@ -25,9 +19,11 @@ def authentificationserveur(client):
 		prenom = ""
 		mdp = ""
 
+
+		data = "recu"
+
 		nom = client.recv(buf)
 		print "message recu : ",nom
-		data = "recu"
 		client.send(data)
 
 		prenom = client.recv(buf)
@@ -36,9 +32,9 @@ def authentificationserveur(client):
 
 		mdp = client.recv(buf)
 		print "message recu : ", mdp
+		client.send(data)
 		################################################################
 
-		client.send(data)
 		# identification return 0 pour false, et 1 pour true
 		identification = isintable(nom,prenom,mdp,"employees")
 
@@ -62,20 +58,7 @@ def authentificationserveur(client):
 
 			client.send("fin")
 			break
-			
-			"""
-			client.send("envoie < F > pour confirmer ou autre pour continuer")
-			data = client.recv(buf)
-			print(data)
-			if data.upper() == 'F':
-				client.send("fin")
-				print("\n---- deconnecxion du client ------\n" )
-				break
-			else:
-				client.send("continue")
-				print("coucou")
-				authentificationserveur(client)
-			"""
+
 
 	print("c'est fini molami")
 
@@ -136,7 +119,3 @@ def authentificationclient(client):
 
 				if data.upper() == "FIN":
 					break
-				"""
-				if data.upper() == "CONTINUE":
-					authentificationclient(client)
-				"""
