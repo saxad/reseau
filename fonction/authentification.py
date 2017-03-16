@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
 
+from chiffrer import chiffrer
 from getpass import getpass
 from  database import *
 import socket
@@ -31,6 +32,7 @@ def authentificationserveur(client):
 		client.send(data)
 
 		mdp = client.recv(buf)
+
 		print "message recu : ", mdp
 		client.send(data)
 		################################################################
@@ -91,6 +93,7 @@ def authentificationclient(client):
 
 		data = getpass("entre ton mot de passe : ")
 		###### Faut chiffrer le mot de passe avant de l'envoyer ######
+		data = chiffrer(data)
 		client.send(data)
 		data = client.recv(buf)#ack recu
 #############################################" blempro"

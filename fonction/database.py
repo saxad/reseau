@@ -3,7 +3,7 @@
 
 
 import sqlite3
-
+from chiffrer import chiffrer
 
 
 def creation():
@@ -14,13 +14,13 @@ def creation():
 		conn = sqlite3.connect(bdd)
 		conn.text_factory = str
 		cur = conn.cursor()
-
+		mdp_chiffrer = chiffrer("azerty")
 
 		cur.execute("CREATE TABLE employee (nom TEXT, prenom TEXT, mdp TEXT) ")
-		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('prieur','paul','azerty')")
-		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('zizi','saad','azerty')")
-		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('dendekker','benjamin','azerty')")
-		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('hue','charly','azerty')")
+		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('prieur','paul',?)",(mdp_chiffrer,))
+		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('zizi','saad',?)", (mdp_chiffrer,))
+		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('dendekker','benjamin',?)",(mdp_chiffrer,))
+		cur.execute("INSERT INTO employee(nom, prenom, mdp) VALUES('hue','charly',?)",(mdp_chiffrer,))
 
 		conn.commit()
 		cur.execute("SELECT * FROM employee")
@@ -35,6 +35,7 @@ def isintable( nomid, prenomid, mdpid,bdd="employees"):
 
 	conn = sqlite3.connect(bdd)
 	cur = conn.cursor()
+
 	personne = cur.execute("SELECT *  FROM employee WHERE nom= ? and prenom= ? and mdp= ?  ",(nomid,prenomid,mdpid))
 
 	liste = cur.fetchall()
@@ -47,5 +48,6 @@ def isintable( nomid, prenomid, mdpid,bdd="employees"):
 		return 1
 
 if __name__ == "__main__":
+	q = str(chiffrer("azerty"))
 	creation()
-	isintable('prieur','paul','azerty',"employees")
+	isintable('prieur','paul',q,"employees")

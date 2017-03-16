@@ -26,6 +26,8 @@ class threadclient(threading.Thread):  # threadclient herite les caractéristiqu
         print("la valeur de nom ", nom)
         while 1 :
             authentificationserveur(self.connexion)
+            """            while 1 :
+                shell()"""
             self.connexion.close()
             sys.exit()
 #################### FIN DU THREAD ####################
