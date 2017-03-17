@@ -11,6 +11,7 @@ import sys
 host = '127.0.0.1'
 port = 7412
 
+
 ########### THREAD QUI S'OCCUPE DES CLIENTS ###########
 
 class threadclient(threading.Thread):  # threadclient herite les caractéristique de THREAD
@@ -26,8 +27,6 @@ class threadclient(threading.Thread):  # threadclient herite les caractéristiqu
         print("la valeur de nom ", nom)
         while 1 :
             authentificationserveur(self.connexion)
-            """            while 1 :
-                shell()"""
             self.connexion.close()
             sys.exit()
 #################### FIN DU THREAD ####################

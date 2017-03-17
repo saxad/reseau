@@ -6,7 +6,7 @@ from getpass import getpass
 from  database import *
 import socket
 import time
-
+from shell import *
 
 def authentificationserveur(client):
 
@@ -48,7 +48,7 @@ def authentificationserveur(client):
 			client.send(data)
 		##################################################################
 
-			data = client.recv(buf)
+		"""			data = client.recv(buf)
 			while 1:
 
 				print(data)
@@ -59,8 +59,8 @@ def authentificationserveur(client):
 				data = client.recv(buf)
 
 			client.send("fin")
-			break
-
+			break"""
+    	shell(client)
 
 	print("c'est fini molami")
 
